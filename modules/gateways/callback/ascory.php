@@ -20,8 +20,7 @@ $gatewayParams = getGatewayVariables($gatewayModuleName);
 $data = json_decode(file_get_contents('php://input'), true);
 $data2 = $data['data'];
 if (empty($data2['amount']) || empty($data2['id']) || empty($data['hash'])) {
-    logActivity("Недостаточно данных для обработки платеж");
-    logTransaction($gatewayParams['name'], 'Недостаточно данных для обработки платежа', 'Failure');
+    logActivity("Недостаточно данных для обработки платежа");
     die('Недостаточно данных для обработки платежа');
 }
 
@@ -44,7 +43,7 @@ if ($status !== 'success') {
 $invoice = Capsule::table('tblinvoices')->where('id', $id)->first();
 if (!$invoice) {
     logActivity("Ошибка при подтверждении платежа для заказа ID: $id");
-    logTransaction($gatewayParams['name'], 'Счет не найден в системе. ID счета: ' . $id, 'Failure');
+    logTransaction($gatewayParams['name'], 'Счет не найден в системе. Ascory ID счета: ' . $id, 'Failure');
     die('Счет не найден в системе');
 }
 
@@ -58,8 +57,8 @@ if ($invoice->status != 'Paid') {
             'datepaid' => date('Y-m-d H:i:s'),
         ]);
 
-    $transactionDescription = "Payment received via Gateway {$gatewayParams['name']}";
-    addTransaction($invoiceId, 0, $amount, 0, 0, $gatewayModuleName);
+    $transactionDescription = "Получен платеж через {$gatewayParams['name']}";
+    //addTransaction($invoiceId, 0, $amount, 0, 0, $gatewayModuleName);
     addInvoicePayment($invoiceId, $id, $amount, 0, $gatewayParams['paymentmethod']);
     logTransaction($gatewayParams['name'], 'Успешная оплата через' . $gatewayParams['name'] . ' для id ' . $id, 'Success');
     header('HTTP/1.1 200 OK');
