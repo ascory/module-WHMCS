@@ -58,9 +58,22 @@ if ($invoice->status != 'Paid') {
             'datepaid' => date('Y-m-d H:i:s'),
         ]);
 
-    $transactionDescription = "Получен платеж через {$gatewayParams['name']}";
+    $transactionDescription = "Получен платеж через {$gatewayParams['name']}, Хэщ платежа: $hash";
     //addTransaction($invoiceId, 0, $amount, 0, 0, $gatewayModuleName);
-    addTransaction($userId, $invoiceId, 0, $amount, 0, 0, $gatewayModuleName);
+    addTransaction([
+        'userid' => $userId,
+        'invoiceid' => $invoiceId,
+        'transid' => $id,
+        'date' => date('d/m/Y'),
+        'currencyid' => 1,
+        'description' => $transactionDescription,
+        'amountin' => $amount,
+        'fees' => 0,
+        'amountout' => 0,
+        'rate' => 1,
+        'credit' => false,
+        'allowduplicatetransid' => false,
+    ]);
     addInvoicePayment($invoiceId, $id, $amount, 0, $gatewayParams['paymentmethod']);
     logTransaction($gatewayParams['name'], 'Успешная оплата через' . $gatewayParams['name'] . ' для id ' . $id, 'Success');
     header('HTTP/1.1 200 OK');
