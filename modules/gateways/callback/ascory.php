@@ -49,6 +49,7 @@ if (!$invoice) {
 
 if ($invoice->status != 'Paid') {
     $invoiceId = $invoice->id;
+    $userId = Capsule::table('tblinvoiceitems')->where('invoiceid', $invoiceId)->value('userid');
 
     Capsule::table('tblinvoices')
         ->where('id', $invoiceId)
@@ -59,6 +60,7 @@ if ($invoice->status != 'Paid') {
 
     $transactionDescription = "Получен платеж через {$gatewayParams['name']}";
     //addTransaction($invoiceId, 0, $amount, 0, 0, $gatewayModuleName);
+    addTransaction($userId, $invoiceId, 0, $amount, 0, 0, $gatewayModuleName);
     addInvoicePayment($invoiceId, $id, $amount, 0, $gatewayParams['paymentmethod']);
     logTransaction($gatewayParams['name'], 'Успешная оплата через' . $gatewayParams['name'] . ' для id ' . $id, 'Success');
     header('HTTP/1.1 200 OK');
