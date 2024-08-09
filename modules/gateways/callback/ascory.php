@@ -43,7 +43,7 @@ if ($status !== 'success') {
 $invoice = Capsule::table('tblinvoices')->where('id', $id)->first();
 if (!$invoice) {
     logActivity("Ошибка при подтверждении платежа для заказа ID: $id");
-    logTransaction($gatewayParams['name'], 'Счет не найден в системе. Ascory ID счета: ' . $id, 'Failure');
+    logTransaction($gatewayParams['name'], 'Счет не найден в системе. ID счета от Ascory: ' . $id . '. Сумма платежа: ' . $amount . '. Статус платежа: ' . $status, 'Failure');
     die('Счет не найден в системе');
 }
 
@@ -75,11 +75,11 @@ if ($invoice->status != 'Paid') {
         'allowduplicatetransid' => false,
     ]);
     addInvoicePayment($invoiceId, $id, $amount, 0, $gatewayParams['paymentmethod']);
-    logTransaction($gatewayParams['name'], 'Успешная оплата через' . $gatewayParams['name'] . ' для id ' . $id, 'Success');
+    logTransaction($gatewayParams['name'], 'Успешная оплата через' . $gatewayParams['name'] . '. ID счета: ' . $id . '. Сумма платежа: ' . $amount . '. Статус платежа: ' . $status, 'Success');
     header('HTTP/1.1 200 OK');
     echo json_encode(['code' => 200]);
 } else {
-    logTransaction($gatewayParams['name'], 'Счет уже оплачен. ID счета ' . $id . '. Сумма платежа:' . $amount . '. Статус платежа: ' . $status, 'Failure');
+    logTransaction($gatewayParams['name'], 'Счет уже оплачен. ID счета: ' . $id . '. Сумма платежа: ' . $amount . '. Статус платежа: ' . $status, 'Failure');
     die('Счет уже оплачен');
 }
 ?>
