@@ -5,6 +5,7 @@ require_once __DIR__ . '/../../../includes/invoicefunctions.php';
 
 use WHMCS\Billing\Invoice;
 use WHMCS\Database\Capsule;
+
 $allowedIPs = ['193.222.99.133'];
 $ip = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0] : $_SERVER['REMOTE_ADDR'];
 if (!in_array($ip, $allowedIPs)) {
