@@ -56,7 +56,7 @@ if ($invoice->status != 'Paid') {
             'datepaid' => date('Y-m-d H:i:s'),
         ]);
 
-    $transactionDescription = "Получен платеж через {$gatewayParams['name']}, Хэщ платежа: $hash";
+    $transactionDescription = "Получен платеж через {$gatewayParams['name']}, Хэш платежа: $hash";
     //addTransaction($invoiceId, 0, $amount, 0, 0, $gatewayModuleName);
     addTransaction([
         'userid' => $userId,
