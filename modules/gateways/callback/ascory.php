@@ -17,7 +17,7 @@ $gatewayParams = getGatewayVariables($gatewayModuleName);
 
 $data = json_decode(file_get_contents('php://input'), true);
 $data2 = $data['data'];
-if (empty($data2['amount']) || empty($data2['id']) || empty($data['hash'])) {
+if (empty($data2['amount']) || empty($data2['id']) || empty($data2['comment']) || empty($data2['type'])) {
     logActivity("Недостаточно данных для обработки платежа");
     die('Недостаточно данных для обработки платежа');
 }
@@ -25,13 +25,7 @@ if (empty($data2['amount']) || empty($data2['id']) || empty($data['hash'])) {
 $amount = $data['amount'];
 $shop = $gatewayParams['shop'];
 $id = $data2['comment'];
-$hash = $data['hash'];
 $status = $data2['type'];
-
-$hashString = $shop . json_encode($data2) . $gatewayParams['key1'] . $gatewayParams['key2'];
-if (!password_verify($hashString, $hash)) {
-	die('Ошибка проверки хеша');
-}
 
 if ($status !== 'success') {
     logActivity("Ошибка при подтверждении платежа для заказа ID: $id");
@@ -47,7 +41,7 @@ if (!$invoice) {
 
 if ($invoice->status != 'Paid') {
     $invoiceId = $invoice->id;
-    $transactionDescription = "Получен платеж через {$gatewayParams['name']}, Хэш платежа: $hash";
+    $transactionDescription = "Получен платеж через {$gatewayParams['name']} с id {$id}";
     $userId = Capsule::table('tblinvoiceitems')->where('invoiceid', $invoiceId)->value('userid');
     addTransaction([
         'userid' => $userId,
