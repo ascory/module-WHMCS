@@ -67,7 +67,7 @@ function ascory_link($params)
     $response = json_decode(curl_exec($ch), true);
     if ($response["code"] !== 200) {
         logActivity("Ascory Pay Error: " . json_encode($response));
-        die("Произошла ошибка при создании айтема" . $response);
+        die("Произошла ошибка при создании айтема" . json_encode($response));
     }
     $item = $response["data"]["id"];
 
@@ -81,7 +81,7 @@ function ascory_link($params)
     $response = json_decode(curl_exec($ch), true);
     if ($response["code"] !== 200) {
         logActivity("Ascory Pay Error: " . json_encode($response));
-        die("Произошла ошибка при создании инвойса. Подробности: " . $response);
+        die("Произошла ошибка при создании инвойса. Подробности: " . json_encode($response));
     }
 
     header("Location: " . $response["data"]["url"]);
