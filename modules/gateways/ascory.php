@@ -48,10 +48,17 @@ function ascory_link($params)
         "description" => "Инвойс для WHMCS заказа ID: $id",
         "amount" => $amount
     ]));
-    $response = json_decode(curl_exec($ch), true);
+    
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        logActivity("Ascory Pay cURL Error: " . curl_error($ch));
+        die("Произошла ошибка при выполнении запроса: " . curl_error($ch));
+    }
+    
+    $response = json_decode($response, true);
     if ($response["code"] !== 200) {
         logActivity("Ascory Pay Error: " . json_encode($response));
-        die("Произошла ошибка при создании айтема" . json_encode($response));
+        die("Произошла ошибка при создании айтема: " . json_encode($response));
     }
     $item = $response["data"]["id"];
 
@@ -60,9 +67,16 @@ function ascory_link($params)
         "shop" => $shop,
         "hash" => $hash,
         "item" => $item,
-		"comment" => $id
+        "comment" => $id
     ]));
-    $response = json_decode(curl_exec($ch), true);
+    
+    $response = curl_exec($ch);
+    if (curl_errno($ch)) {
+        logActivity("Ascory Pay cURL Error: " . curl_error($ch));
+        die("Произошла ошибка при выполнении запроса: " . curl_error($ch));
+    }
+    
+    $response = json_decode($response, true);
     if ($response["code"] !== 200) {
         logActivity("Ascory Pay Error: " . json_encode($response));
         die("Произошла ошибка при создании инвойса. Подробности: " . json_encode($response));
