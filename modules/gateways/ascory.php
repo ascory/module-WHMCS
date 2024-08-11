@@ -5,30 +5,18 @@ function ascory_config() {
             "Type" => "System",
             "Value" => "Ascory Pay"
         ),
-        "key1" => array(
-            "FriendlyName" => "Key 1",
+        "hash" => array(
+            "FriendlyName" => "Hash",
             "Type" => "text",
             "Size" => "32",
-            "Description" => "Первый ключ"
-        ),
-        "key2" => array(
-            "FriendlyName" => "Key 2",
-            "Type" => "text",
-            "Size" => "32",
-            "Description" => "Второй ключ"
+            "Description" => "Хэш"
         ),
         "shop" => array(
             "FriendlyName" => "Shop ID",
             "Type" => "text",
             "Size" => "32",
             "Description" => "Айди шопа"
-        ),
-        "ip" => array(
-            "FriendlyName" => "IP",
-            "Type" => "text",
-            "Size" => "15",
-            "Description" => "IP где стоит ваш WHMCS"
-        ),
+        )
     );
     return $configarray;
 }
@@ -37,18 +25,14 @@ function ascory_link($params)
 {
     $gatewayParams = getGatewayVariables('ascory');
 
-    if (!$gatewayParams['key1'] || !$gatewayParams['key2'] || !$gatewayParams['shop'] || !$gatewayParams['ip']) {
+    if (!$gatewayParams['hash'] || !$gatewayParams['shop'] || !$gatewayParams['ip']) {
         die('Указаны не все данные в настройках модуля');
     }
 
     $amount = $params['amount'];
     $shop = $gatewayParams['shop'];
     $id = $params['invoiceid'];
-    $key1 = $gatewayParams['key1'];
-    $key2 = $gatewayParams['key2'];
-    $apiIp = $gatewayParams['ip'];
-
-    $hash = password_hash($key1 . ":" . $key2 . ":" . $apiIp, PASSWORD_BCRYPT);
+    $hash = $gatewayParams['hash'];
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://api.ascory.com/v1/item/create");
