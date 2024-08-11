@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../../init.php';
 require_once __DIR__ . '/../../../includes/gatewayfunctions.php';
 require_once __DIR__ . '/../../../includes/invoicefunctions.php';
 
+use WHMCS\Billing\Invoice;
 use WHMCS\Database\Capsule;
 
 $allowedIPs = ['193.222.99.133'];
