@@ -25,7 +25,7 @@ function ascory_link($params)
 {
     $gatewayParams = getGatewayVariables('ascory');
 
-    if (!$gatewayParams['hash'] || !$gatewayParams['shop'] || !$gatewayParams['ip']) {
+    if (!$gatewayParams['hash'] || !$gatewayParams['shop']) {
         die('Указаны не все данные в настройках модуля');
     }
 
