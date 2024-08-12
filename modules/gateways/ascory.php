@@ -44,8 +44,8 @@ function ascory_link($params)
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
         "shop" => $shop,
         "hash" => $hash,
-        "name" => "Инвойс для заказа ID: $id",
-        "description" => "Инвойс для WHMCS заказа ID: $id",
+        "name" => "Invoice ID: $id",
+        "description" => "Invoice: $id",
         "amount" => $amount
     ]));
     
