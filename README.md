@@ -2,7 +2,7 @@
 > [!WARNING]
 > The module was created by Ascory users. No assistance may be provided for this repository. By using this code, you automatically agree to the MIT license.
 ## Getting started
-1. Install the repository files in the `/modules/gateways` folder.
+1. Install the repository files in the `/modules/` folder.
 2. Go to `Settings` > `Apps & Integrations` > `Active` > `Ascory` > `Manage` on your WHMCS site.
 3. Enter all the required data.
 4. The currency for payment is USD. If you select a different value, the module will not work correctly.
