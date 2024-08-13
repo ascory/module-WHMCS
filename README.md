@@ -11,10 +11,8 @@
 * Success URL: https://yourdomain.com/clientarea.php?action=invoices
 * Fail URL: https://yourdomain.com/clientarea.php?action=invoices
 * Webhook URL: https://yourdomain.com/modules/gateways/callback/ascory.php
-
 ## Requirements
 * WHMCS 7.x or above
-
 ## Contact
 * Telegram channel with updates: https://t.me/ascorywhmcs
 * Owner: https://t.me/hak338
