@@ -43,20 +43,7 @@ if ($invoice->status != 'Paid') {
     $invoiceId = $invoice->id;
     $transactionDescription = "Получен платеж через {$gatewayParams['name']} с id {$id}";
     $userId = Capsule::table('tblinvoiceitems')->where('invoiceid', $invoiceId)->value('userid');
-    addTransaction([
-        'userid' => $userId,
-        'invoiceid' => $invoiceId,
-        'transid' => $id,
-        'date' => date('Y-m-d H:i:s'),
-        'currencyid' => 1,
-        'description' => $transactionDescription,
-        'amountin' => $amount,
-        'fees' => 0,
-        'amountout' => 0,
-        'rate' => 1,
-        'credit' => false,
-        'allowduplicatetransid' => false,
-    ]);
+    addTransaction($userId, 1, $transactionDescription, $amount, 0, $invoiceId, $id, $gatewayParams['paymentmethod']);
     addInvoicePayment($invoiceId, $id, $amount, 0, $gatewayParams['paymentmethod']);
     Capsule::table('tblinvoices')
         ->where('id', $invoiceId)
