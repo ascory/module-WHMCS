@@ -15,4 +15,4 @@
 * WHMCS 7.x or above
 ## Contact
 * Telegram channel with updates: https://t.me/ascorywhmcs
-* Owner: https://t.me/hak338
+* Owner: https://t.me/hak2281
